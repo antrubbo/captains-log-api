@@ -63,6 +63,8 @@ logs.get("/", (req, res) => {
             }))
         break;
     }
+
+    res.json(logsArray)
 })
 
 module.exports = logs
