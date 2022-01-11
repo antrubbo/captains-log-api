@@ -1,6 +1,7 @@
 const express = require("express")
 const logs = express.Router()
 const logsArray = require("../models/log.js")
+const { validateLog } = require("../models/validations.js")
 
 logs.get("/", (req, res) => {
     const { order, mistakes, lastCrisis } = req.query
@@ -67,13 +68,13 @@ logs.get("/", (req, res) => {
     res.json(logsArray)
 })
 
-logs.post("/", (req, res) => {
-    logsArray.push({"captainName": "Picard", "daysSinceLastCrisis": "10", "mistakesWereMadeToday": true, "post": "Today I contemplated that there sure are a lot of stars in the sky", "title": "Stars"})
-    res.json(logsArray[logsArray.length - 1])
+logs.post("/", validateLog, (req, res) => {
+    // logsArray.push({"captainName": "Picard", "daysSinceLastCrisis": "10", "mistakesWereMadeToday": true, "post": "Today I contemplated that there sure are a lot of stars in the sky", "title": "Stars"})
+    // res.json(logsArray[logsArray.length - 1])
 
     // Below is for using Postman to send a request in the body
-    // logsArray.push(req.body)
-    // res.json(logsArray[logsArray.length - 1])
+    logsArray.push(req.body)
+    res.json(logsArray[logsArray.length - 1])
 })
 
 logs.get("/:arrayIndex", (req, res) => {
@@ -83,6 +84,12 @@ logs.get("/:arrayIndex", (req, res) => {
     } else {
         res.redirect("/*")
     }
+})
+
+logs.put("/:arrayIndex", (req, res) => {
+    const { arrayIndex } = req.params
+    logsArray[arrayIndex] = req.body
+    res.status(200).json(logsArray[arrayIndex])
 })
 
 logs.delete("/:arrayIndex", (req, res) => {
