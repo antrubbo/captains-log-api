@@ -2,6 +2,8 @@ const express = require("express")
 const logsController = require("./controllers/logsController.js")
 const app = express()
 
+app.use(express.json()) // Parse incoming JSON
+
 app.use("/logs", logsController)
 
 app.get("/", (req, res) => {

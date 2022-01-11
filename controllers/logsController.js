@@ -70,12 +70,26 @@ logs.get("/", (req, res) => {
 logs.post("/", (req, res) => {
     logsArray.push({"captainName": "Picard", "daysSinceLastCrisis": "10", "mistakesWereMadeToday": true, "post": "Today I contemplated that there sure are a lot of stars in the sky", "title": "Stars"})
     res.json(logsArray[logsArray.length - 1])
+
+    // Below is for using Postman to send a request in the body
+    // logsArray.push(req.body)
+    // res.json(logsArray[logsArray.length - 1])
 })
 
 logs.get("/:arrayIndex", (req, res) => {
     const { arrayIndex } = req.params
     if(logsArray[arrayIndex]){
         res.json(logsArray[arrayIndex])
+    } else {
+        res.redirect("/*")
+    }
+})
+
+logs.delete("/:arrayIndex", (req, res) => {
+    const { arrayIndex } = req.params
+    if(logsArray[arrayIndex]){
+        const deletedLog = logsArray.splice(arrayIndex, 1)
+        res.json(deletedLog)
     } else {
         res.redirect("/*")
     }
