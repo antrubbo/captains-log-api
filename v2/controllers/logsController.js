@@ -4,13 +4,9 @@ const logsArray = require("../../models/log.js")
 
 logs.get("/", (req, res) => {
     const allLogs = logsArray.map((log, index) => `<li><a href="/v2/logs/${index}">${log.title}</a></li>`)
-    // const iterator = logsArray.values();
-    // for(entry of iterator){
-    //     return `<li><a href="/v2/logs/:index">${entry.title}</a></li>`
-    // }
     res.send(`
         <ul>
-            ${allLogs}
+            ${allLogs.join("")}
         </ul>
     `)
 })
